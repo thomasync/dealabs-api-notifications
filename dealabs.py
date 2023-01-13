@@ -16,6 +16,12 @@ if os.getenv("PUSHOVER_USER") is None:
     print("PUSHOVER_USER not found")
     exit(1)
 
+refresh_seconds = int(os.getenv("REFRESH_SECONDS")
+                      ) if os.getenv("REFRESH_SECONDS") else 60
+
+min_discount = int(os.getenv("MIN_DISCOUNT")) if os.getenv(
+    "MIN_DISCOUNT") else 80
+
 
 def getProducts():
     headers = {
@@ -125,7 +131,25 @@ def sendNotification(title, merchant, image, price_formatted, price_original_for
     })
 
 
+def expireNotification():
+    send_notification = True if os.getenv("EXPIRE_NOTIFICATION") and os.getenv(
+        "EXPIRE_NOTIFICATION") == "1" else False
+
+    delta_time = int(datetime.datetime.now().timestamp() -
+                     os.path.getmtime('.env'))
+
+    if send_notification and delta_time > 29 * 24 * 60 * 60 and delta_time < 29 * 24 * 60 * 60 + refresh_seconds:
+        requests.post("https://api.pushover.net/1/messages.json", data={
+            "token": os.getenv("PUSHOVER_TOKEN"),
+            "user": os.getenv("PUSHOVER_USER"),
+            "title": "🚨 Expiration PushOver",
+            "message": "Attention vos tokens expirent demain !",
+            "priority": 1
+        })
+
+
 while True:
+    expireNotification()
     for product in getProducts():
         id = product['thread_id']
         title = product['title']
@@ -163,9 +187,7 @@ while True:
                              price_formatted, price_original_formatted, discount, url)
             continue
 
-        # Si la réduction est supérieure à 80%
-        min_discount = int(os.getenv("MIN_DISCOUNT")) if os.getenv(
-            "MIN_DISCOUNT") else 80
+        # Si la réduction est supérieure à x%
         if discount and discount >= min_discount:
             sendNotification(title, merchant, image, price_formatted,
                              price_original_formatted, discount, url)
@@ -184,6 +206,4 @@ while True:
         log("[Ignored] {}".format(title))
 
     # Toutes les x secondes
-    refresh_seconds = int(os.getenv("REFRESH_SECONDS")
-                          ) if os.getenv("REFRESH_SECONDS") else 60
     time.sleep(refresh_seconds)

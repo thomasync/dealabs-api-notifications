@@ -12,6 +12,7 @@ Optionnel :
 
 - _MIN_DISCOUNT_ : Représente le pourcentage minimum pour déclencher la notification (90% par défaut)
 - _REFRESH_SECONDS_ : Actualiser la recherche des deals toutes les x seconds (60s par défaut)
+- _EXPIRE_NOTIFICATION_ : Prévient de l'expiration des tokens PushOver la veille pour les modifier (attention c'est basé sur la date de modification du fichier **.env**) (Désactivé par défaut)
 
 ---
 
