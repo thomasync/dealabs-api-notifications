@@ -4,6 +4,7 @@ import os
 import datetime
 import time
 from dotenv import load_dotenv
+import hashlib
 
 load_dotenv()
 
@@ -74,9 +75,9 @@ def getDealsViewed():
     return deals
 
 
-def addDealViewed(id):
+def addDealViewed(hash):
     dealsViewed = getDealsViewed()
-    dealsViewed.append(id)
+    dealsViewed.append(hash)
     with open('deals.json', 'w') as f:
         json.dump(dealsViewed, f)
 
@@ -170,9 +171,11 @@ while True:
 
         groups = product['group_ids']
 
+        title_hashed = hashlib.md5(title.encode('utf-8')).hexdigest()
+
         # Si le deal a déjà été vu
-        if id not in getDealsViewed():
-            addDealViewed(id)
+        if title_hashed not in getDealsViewed():
+            addDealViewed(title_hashed)
             pass
         else:
             continue
