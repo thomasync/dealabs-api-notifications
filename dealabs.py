@@ -171,11 +171,14 @@ while True:
 
         groups = product['group_ids']
 
-        title_hashed = hashlib.md5(title.encode('utf-8')).hexdigest()
+        hash_content = "{}{}{}{}{}{}".format(title, str(local), str(
+            price), str(price_original), str(discount), str(merchant))
+        hash_content += ''.join(str(group) for group in groups)
+        hash = hashlib.md5(hash_content.encode('utf-8')).hexdigest()
 
         # Si le deal a déjà été vu
-        if title_hashed not in getDealsViewed():
-            addDealViewed(title_hashed)
+        if hash not in getDealsViewed():
+            addDealViewed(hash)
             pass
         else:
             continue
