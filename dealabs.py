@@ -42,27 +42,14 @@ def getProducts():
         'page': '1',
     }
 
-    response = requests.get('https://www.dealabs.com/rest_api/v2/thread',
-                            params=params, headers=headers)
+    try:
+        response = requests.get('https://www.dealabs.com/rest_api/v2/thread',
+                                params=params, headers=headers, timeout=5).json()['data']
+        response.reverse()
+    except:
+        response = []
 
-    return response.json()['data']
-
-
-def getProduct(id):
-    headers = {
-        'Host': 'www.dealabs.com',
-        'accept': '*/*',
-        'pepper-json-format': 'badge=userbadge,thread=full,user=list,merchant=full,type=full,image=full,thread_update=full,group=ids,comment=list, message=with_code, formatted_text=parsed',
-        'authorization': 'OAuth oauth_consumer_key="540475e198c64",oauth_nonce="0FBA85A2-22F9-4F34-B522-A3227250DFAE",oauth_signature="0P1Tz2osW6CpErp0kvNqETr%2BQNY%3D",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1673626382",oauth_version="1.0"',
-        'pepper-hardware-id': 'F9E2DA43-1418-45EE-BDEC-6BCAFFBE2A40',
-        'user-agent': 'com.dealabs.apps.ios/612302/6.12.3 (iPhone; iOS 13.2.2; Scale/3.00)',
-        'accept-language': 'fr-FR;q=1, en-FR;q=0.9',
-    }
-
-    response = requests.get(
-        'https://www.dealabs.com/rest_api/v2/thread/' + str(id), headers=headers)
-
-    return response.json()['data']
+    return response
 
 
 def getDealsViewed():
@@ -95,11 +82,16 @@ def getImage(url):
         'accept-language': 'fr-fr',
     }
 
-    response = requests.get(
-        url,
-        headers=headers,
-    )
-    return response.content
+    try:
+        response = requests.get(
+            url,
+            headers=headers,
+            timeout=5,
+        ).content
+    except:
+        response = None
+
+    return response
 
 
 def sendNotification(title, merchant, image, price_formatted, price_original_formatted, discount, url):
@@ -183,7 +175,6 @@ while True:
         else:
             continue
 
-        # Si le deal n'est pas sur internet
         if local:
             continue
 
@@ -198,16 +189,6 @@ while True:
             sendNotification(title, merchant, image, price_formatted,
                              price_original_formatted, discount, url)
             continue
-
-        # Si la description du deal contient "erreur"
-        try:
-            product = getProduct(id)
-            if "erreur" in product['description'].lower():
-                sendNotification(title, merchant, image, price_formatted,
-                                 price_original_formatted, discount, url)
-                continue
-        except:
-            pass
 
         log("[Ignored] {}".format(title))
 
