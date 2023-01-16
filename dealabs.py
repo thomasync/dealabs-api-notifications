@@ -31,7 +31,7 @@ def getProducts():
         'pepper-json-format': 'thread=list,user=list,badge=none,group=ids,type=light,image=light, message=with_code, formatted_text=parsed',
         'pepper-include-counters': 'unread_alerts,unread_dealbot_newsletters',
         'accept-language': 'fr-FR;q=1, en-FR;q=0.9',
-        'authorization': 'OAuth oauth_consumer_key="540475e198c64",oauth_nonce="F6AC8C80-217F-4560-8508-DA11517CA23B",oauth_signature="pwuAg4zar0fBEiSittDSa%2FM2LMw%3D",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1673622310",oauth_version="1.0"',
+        'authorization': 'OAuth oauth_consumer_key="540475e198c64",oauth_nonce="0744E67A-86C8-4ABE-A975-F61FA6B8D510",oauth_signature="htd%2BLIH7ZCIDe5FnYffjmxk6ZUw%3D",oauth_signature_method="HMAC-SHA1",oauth_timestamp="1673886429",oauth_token="1d8d2000b1d11df2e5f6e9ddf33d583e50df8ab2",oauth_version="1.0"',
         'user-agent': 'com.dealabs.apps.ios/612302/6.12.3 (iPhone; iOS 13.2.2; Scale/3.00)',
         'pepper-hardware-id': 'F9E2DA43-1418-45EE-BDEC-6BCAFFBE2A40',
     }
