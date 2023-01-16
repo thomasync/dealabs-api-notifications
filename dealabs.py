@@ -27,7 +27,6 @@ min_discount = int(os.getenv("MIN_DISCOUNT")) if os.getenv(
 def getProducts():
     headers = {
         'Host': 'www.dealabs.com',
-        # 'Cookie': '__cf_bm=RlbUafSlSKtpszdphjWHgmM8lKLbw0bU5WaNRDILBZY-1673886425-0-ATNFWhOezAW5TWv/DKTNtfFj7xfPFhgtWut+BfDp+YHvREUUYoH87MsNM3lbCdDRxSr/BJAv/XheqC6D0i5KhbQ=; p_cg=%221207-1207-1261-1261-1261-12-12-12-11-1243-1243-1229-1229-1243-1243-1207-1207-1207-1207-1207%22; p_i_c=54; p_u_v=%220.11008239%2C0.51664570%2C-0.05677747%2C0.09386756%2C-0.11048764%2C0.06320959%2C0.10232140%2C-0.52905320%2C-0.44325949%2C-0.02430868%2C0.88213014%2C-0.72220166%2C-0.12155707%2C0.44384079%2C-0.25305458%2C1.34712278%2C-0.88328367%2C-0.61464278%2C1.02982097%2C0.51636490%2C-0.23292524%2C-0.54198498%2C0.48348903%2C0.68675107%2C-3.19936792%7C1673884102%7C53%22; l_p_u_t_ts=1673874166; f_v=%227cf9f590-9353-11ed-84bd-0242ac110002%22',
         'accept': '*/*',
         'pepper-json-format': 'thread=list,user=list,badge=none,group=ids,type=light,image=light, message=with_code, formatted_text=parsed',
         'pepper-include-counters': 'unseen_activities,unread_alerts,unseen_messages,unread_dealbot_newsletters',
