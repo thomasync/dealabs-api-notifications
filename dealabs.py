@@ -23,6 +23,9 @@ refresh_seconds = int(os.getenv("REFRESH_SECONDS")
 min_discount = int(os.getenv("MIN_DISCOUNT")) if os.getenv(
     "MIN_DISCOUNT") else 80
 
+free_products = int(os.getenv("FREE_PRODUCTS")) if os.getenv(
+    "FREE_PRODUCTS") else 0
+
 
 def getProducts():
     headers = {
@@ -186,6 +189,12 @@ while True:
 
         # Si la réduction est supérieure à x%
         if discount and discount >= min_discount:
+            sendNotification(title, merchant, image, price_formatted,
+                             price_original_formatted, discount, url)
+            continue
+
+        # Si c'est un produit gratuit
+        if free_products and 17 in groups:
             sendNotification(title, merchant, image, price_formatted,
                              price_original_formatted, discount, url)
             continue
