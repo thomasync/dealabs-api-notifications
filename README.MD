@@ -8,12 +8,20 @@
 4. Remplir les valeurs _PUSHOVER_TOKEN_ et _PUSHOVER_USER_
 5. Sur l'application : Settings -> Advanced Settings -> Auto-open URLs
 
-Optionnel :
+Exemple de la commande:
 
+```
+# python3 main.py [refresh_seconds] [minimum_discount] [free_products] [expire_notification] [open_dealabs]
+python3 main.py 60 90 0 0 1
+```
+
+Optionnel dans le fichier .env:
+
+- _REFRESH_SECONDS_ : Actualiser la recherche des deals toutes les x seconds (60s par défaut)
 - _MIN_DISCOUNT_ : Représente le pourcentage minimum pour déclencher la notification (90% par défaut)
 - _FREE_PRODUCTS_ : Capturer également les produits gratuits (Désactivé par défaut)
-- _REFRESH_SECONDS_ : Actualiser la recherche des deals toutes les x seconds (60s par défaut)
 - _EXPIRE_NOTIFICATION_ : Prévient de l'expiration des tokens PushOver la veille pour les modifier (attention c'est basé sur la date de modification du fichier **.env**) (Désactivé par défaut)
+- _OPEN_DEALABS_ : Au click sur la notification ouvrir Dealabs, au lieu du site du deal (Activé par défaut)
 
 ---
 
