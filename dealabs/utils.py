@@ -142,7 +142,10 @@ class Utils:
     # Récupérer l'url finale (après redirections)
     @ staticmethod
     def getFinalUrl(url):
-        response = requests.get(url, headers={
-            'user-agent': 'Dealabs/612302 CFNetwork/1120 Darwin/19.0.0'
-        }, timeout=5, allow_redirects=True)
-        return response.url
+        try:
+            response = requests.get(url, headers={
+                'user-agent': 'Dealabs/612302 CFNetwork/1120 Darwin/19.0.0'
+            }, timeout=5, allow_redirects=True)
+            return response.url
+        except:
+            return url

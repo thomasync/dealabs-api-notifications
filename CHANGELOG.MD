@@ -5,13 +5,19 @@ Toutes les modifications notable de ce projet seront documentées dans ce fichie
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2023-01-20
+
+### Corrigé
+
+- Catch les erreurs lors de la récupération des redirections d'urls dans getFinalUrl()
+
 ## [2.0.0] - 2023-01-19
 
 ### Modifié
 
 - Refactoring complet pour tout inclure dans un module
 - La récupération passe désormais par graphQL et plus l'api interne
-- Les images ne sont plus récupérées via l'api des images, met le CDN public
+- Les images ne sont plus récupérées via l'api des images, mais le CDN public
 
 ### Ajouté
 
