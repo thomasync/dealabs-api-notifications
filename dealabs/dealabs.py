@@ -9,11 +9,12 @@ import re
 
 class Dealabs:
 
-    def __init__(self, minimum_discount, free_products, expire_notification, open_dealabs):
+    def __init__(self, minimum_discount, free_products, expire_notification, open_dealabs, priority_only_first):
         self.minimum_discount = minimum_discount
         self.free_products = free_products
         self.expire_notification = expire_notification
         self.open_dealabs = open_dealabs
+        self.priority_only_first = priority_only_first
         self.refresh_seconds = 0
 
     # Définir les tokens pushOver
@@ -24,7 +25,7 @@ class Dealabs:
     # Vérifier les deals toutes les x secondes
     def watch(self, refresh_seconds):
         self.refresh_seconds = refresh_seconds
-        Utils.log("[Start] Watching deals ({}s | min: {}% | free: {} | expire: {} | open_dealabs: {})".format(refresh_seconds, self.minimum_discount, self.free_products, self.expire_notification, self.open_dealabs))
+        Utils.log("[Start] Watching deals ({}s | min: {}% | free: {} | expire: {} | open_dealabs: {} | priority_only_first: {})".format(refresh_seconds, self.minimum_discount, self.free_products, self.expire_notification, self.open_dealabs, self.priority_only_first))
         while True:
             if self.expire_notification and hasattr(self, 'token') and hasattr(self, 'user'):
                 Utils.expireNotification(self.token, self.user, self.refresh_seconds)
@@ -57,7 +58,7 @@ class Dealabs:
                 # Si le deal remplit les critères
                 if sendNotification:
                     if hasattr(self, 'token') and hasattr(self, 'user'):
-                        Utils.sendNotification(self.token, self.user, deal, self.open_dealabs)
+                        Utils.sendNotification(self.token, self.user, deal, self.open_dealabs, self.priority_only_first)
                     else:
                         Utils.log("[Not Send] {}".format(Utils.formatDealTitle(deal, True)))
                 else:

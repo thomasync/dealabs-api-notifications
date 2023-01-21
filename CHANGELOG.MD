@@ -5,6 +5,13 @@ Toutes les modifications notable de ce projet seront documentées dans ce fichie
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2023-01-21
+
+### Ajouté
+
+- Ajout du paramètre _PRIORITY_ONLY_FIRST_ pour notifier uniquement en priorité a l'apparition du deal et pas à chaque mise à jour
+- Les deals envoyés sont en cache dans un fichier send.json
+
 ## [2.0.2] - 2023-01-21
 
 ### Corrigé

@@ -11,8 +11,8 @@
 Exemple de la commande:
 
 ```
-# python3 main.py [refresh_seconds] [minimum_discount] [free_products] [expire_notification] [open_dealabs]
-python3 main.py 60 90 0 0 1
+# python3 main.py [refresh_seconds] [minimum_discount] [free_products] [expire_notification] [open_dealabs] [priority_only_first]
+python3 main.py 60 90 0 0 1 1
 ```
 
 Optionnel dans le fichier .env:
@@ -22,6 +22,7 @@ Optionnel dans le fichier .env:
 - _FREE_PRODUCTS_ : Capturer également les produits gratuits (Désactivé par défaut)
 - _EXPIRE_NOTIFICATION_ : Prévient de l'expiration des tokens PushOver la veille pour les modifier (attention c'est basé sur la date de modification du fichier **.env**) (Désactivé par défaut)
 - _OPEN_DEALABS_ : Au click sur la notification ouvrir Dealabs, au lieu du site du deal (Activé par défaut)
+- _PRIORITY_ONLY_FIRST_ : Notifier uniquement en priorité a l'apparition du deal et pas à chaque mise à jour (Activé par défaut)
 
 ---
 

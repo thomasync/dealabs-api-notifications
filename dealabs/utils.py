@@ -9,13 +9,21 @@ class Utils:
 
     # Envoyer le deal par notification
     @staticmethod
-    def sendNotification(token, user, deal, open_dealabs=1):
+    def sendNotification(token, user, deal, open_dealabs=1, priority_only_first=1):
         notif_title = Utils.formatDealTitle(deal)
         urlRedirection = Utils.getFinalUrl(deal['redirectUrl'])
         addedModeration = "1" if deal['addedModeration'] else "0"
         notif_message = "<b>{}</b>\n\n\n\n{} - <a href='{}'>Voir le site</a> - <a href='{}'>Voir le deal</a>\n{}".format(Utils.formatDealTitle(deal, True), addedModeration, urlRedirection, deal['url'], Utils.removeHTML(deal['description']))
 
         url = deal['url'] if open_dealabs else urlRedirection
+
+        priority = 1
+        # Si le deal a déjà été envoyé et que le paramètre est activé, on met la priorité à 0
+        if deal['threadId'] in Utils.getDealSends():
+            if priority_only_first:
+                priority = 0
+        else:
+            Utils.addDealSend(deal['threadId'])
 
         # Post to Pushover
         response = requests.post("https://api.pushover.net/1/messages.json", data={
@@ -26,15 +34,15 @@ class Utils:
             "html": 1,
             "url": url,
             "url_title": "Voir le deal",
-            "priority": 1
+            "priority": priority
         }, files={
             "attachment": ("image.jpg", Utils.getImage(deal['image']), "image/jpeg")
         }).json()
 
         if "status" in response and response['status'] == 1:
-            Utils.log("[Send] {}".format(Utils.formatDealTitle(deal, True)))
+            Utils.log("[Send] {} [{}]".format(Utils.formatDealTitle(deal, True), str(priority)))
         else:
-            Utils.log("[Error] {}".format(Utils.formatDealTitle(deal, True)))
+            Utils.log("[Error] {} [{}]".format(Utils.formatDealTitle(deal, True), str(priority)))
 
     # Récuperer l'image sous forme de bytes
     @ staticmethod
@@ -75,6 +83,17 @@ class Utils:
 
         return deals
 
+    # Récupérer les deals déjà notifiés
+    @ staticmethod
+    def getDealSends():
+        try:
+            with open(Utils.getCacheFolder() + 'sends.json', 'r') as f:
+                deals = json.load(f)
+        except:
+            deals = []
+
+        return deals
+
     # Ajouter un deal à la liste des deals vus
     @ staticmethod
     def addDealViewed(hash):
@@ -82,6 +101,14 @@ class Utils:
         dealsViewed.append(hash)
         with open(Utils.getCacheFolder() + 'deals.json', 'w') as f:
             json.dump(dealsViewed, f)
+
+    # Ajouter un deal à la liste des deals notifiés
+    @ staticmethod
+    def addDealSend(id):
+        dealsSends = Utils.getDealSends()
+        dealsSends.append(id)
+        with open(Utils.getCacheFolder() + 'sends.json', 'w') as f:
+            json.dump(dealsSends, f)
 
     # Envoyer une notification pour prévenir que les tokens vont bientôt expirer
     @ staticmethod

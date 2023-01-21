@@ -11,7 +11,9 @@ refresh_seconds: Nombre de secondes entre chaque rafraichissement
 minimum_discount: Pourcentage minimum de réduction pour être notifié
 free_products: Être notifié des produits gratuits
 expire_notification: Recevoir une notification avant que les tokens pushover ne soient expirés
-open_dealabs: Ouvrir dealabs au lieu du site du deal""")
+open_dealabs: Ouvrir dealabs au lieu du site du deal
+priority_only_first: Notifier uniquement en priorité a l'apparition du deal et pas à chaque mise à jour
+""")
     sys.exit(0)
 
 
@@ -53,7 +55,12 @@ def main(args):
     else:
         open_dealabs = int(os.getenv("OPEN_DEALABS")) if os.getenv("OPEN_DEALABS") else 1
 
-    dealabs = Dealabs(minimum_discount, free_products, expire_notification, open_dealabs)
+    if len(args) > 5:
+        priority_only_first = int(args[5])
+    else:
+        priority_only_first = int(os.getenv("PRIORITY_ONLY_FIRST")) if os.getenv("PRIORITY_ONLY_FIRST") else 1
+
+    dealabs = Dealabs(minimum_discount, free_products, expire_notification, open_dealabs, priority_only_first)
     dealabs.setPushOver(os.getenv("PUSHOVER_TOKEN"), os.getenv("PUSHOVER_USER"))
     dealabs.watch(refresh_seconds)
 
