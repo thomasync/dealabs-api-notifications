@@ -99,9 +99,9 @@ class Dealabs:
             if deal['status'] == 'Deactivated' and (not deal['price'] or deal['price'] == 0):
                 continue
 
-            # Si le deal est local et pas national
-            if deal['isLocal'] and deal['selectedLocations'] and not deal['selectedLocations']['isNational']:
-                continue
+            # Si le deal est local et national
+            if deal['isLocal'] and deal['selectedLocations'] and deal['selectedLocations']['isNational']:
+                deal['isLocal'] = False
 
             # Calculer le pourcentage de réduction
             if deal['price'] and deal['nextBestPrice']:

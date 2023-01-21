@@ -5,6 +5,12 @@ Toutes les modifications notable de ce projet seront documentées dans ce fichie
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2023-01-21
+
+### Corrigé
+
+- Les deals designés comme locaux, mais de type nationaux n'étaient pas récupérés
+
 ## [2.0.1] - 2023-01-20
 
 ### Corrigé
