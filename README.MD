@@ -12,7 +12,7 @@
 
 Exemple de la commande:
 
-```
+```python
 pip install -r requirements.txt
 
 # python3 main.py [refresh_seconds] [minimum_discount] [free_products] [expire_notification] [open_dealabs] [priority_only_first] [free_products_priority]
@@ -45,7 +45,7 @@ Optionnel dans le fichier .env:
 
 #### Récuperer les deals avec au minimum 80% de réduction et sans les produits gratuits
 
-```
+```python
 from dealabs import Dealabs
 dealabs = Dealabs(80, 0)
 deals = dealabs.getDeals()
@@ -53,7 +53,7 @@ deals = dealabs.getDeals()
 
 #### Récuperer les deals avec au minimum 80% de réduction, avec les produits gratuits mais ne pas ajouter ceux en cours de modération
 
-```
+```python
 from dealabs import Dealabs
 dealabs = Dealabs(80, 1)
 deals = dealabs.getDeals(False)
@@ -61,7 +61,7 @@ deals = dealabs.getDeals(False)
 
 #### Récuper un deal depuis son id
 
-```
+```python
 from dealabs import Dealabs
 dealabs = Dealabs()
 deal = dealabs.getDeal(2497616)
@@ -70,7 +70,7 @@ print(deal.json())
 
 #### Récuper un deal depuis son url
 
-```
+```python
 from dealabs import Dealabs
 dealabs = Dealabs()
 deal = dealabs.getDealFromUrl("2497616")
