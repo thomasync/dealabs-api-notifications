@@ -9,21 +9,26 @@ class Utils:
 
     # Envoyer le deal par notification
     @staticmethod
-    def sendNotification(token, user, deal, open_dealabs=1, priority_only_first=1):
-        notif_title = Utils.formatDealTitle(deal)
-        urlRedirection = Utils.getFinalUrl(deal['redirectUrl'])
-        addedModeration = "1" if deal['addedModeration'] else "0"
-        notif_message = "<b>{}</b>\n\n\n\n{} - <a href='{}'>Voir le site</a> - <a href='{}'>Voir le deal</a>\n{}".format(Utils.formatDealTitle(deal, True), addedModeration, urlRedirection, deal['url'], Utils.removeHTML(deal['description']))
+    def sendNotification(token, user, deal, open_dealabs=1, priority_only_first=1, free_products_priority=0):
+        notif_title = deal.formatTitle()
+        urlRedirection = Utils.getFinalUrl(deal.redirectUrl)
+        addedModeration = "1" if deal.isAddedInModeration() else "0"
+        notif_message = "<b>{}</b>\n\n\n\n{} - <a href='{}'>Voir le site</a> - <a href='{}'>Voir le deal</a>\n{}".format(deal.formatTitle(True), addedModeration, urlRedirection, deal.url, Utils.removeHTML(deal.description))
 
-        url = deal['url'] if open_dealabs else urlRedirection
+        url = deal.url if open_dealabs else urlRedirection
 
         priority = 1
+
+        # Si le deal est gratuit mais qu'on ne veut pas de notifications prioritaires
+        if deal.isFree() and free_products_priority == 0:
+            priority = 0
+
         # Si le deal a déjà été envoyé et que le paramètre est activé, on met la priorité à 0
-        if deal['threadId'] in Utils.getDealSends():
+        if deal.id in Utils.getDealSends():
             if priority_only_first:
                 priority = 0
         else:
-            Utils.addDealSend(deal['threadId'])
+            Utils.addDealSend(deal.id)
 
         # Post to Pushover
         response = requests.post("https://api.pushover.net/1/messages.json", data={
@@ -36,13 +41,13 @@ class Utils:
             "url_title": "Voir le deal",
             "priority": priority
         }, files={
-            "attachment": ("image.jpg", Utils.getImage(deal['image']), "image/jpeg")
+            "attachment": ("image.jpg", Utils.getImage(deal.image), "image/jpeg")
         }).json()
 
         if "status" in response and response['status'] == 1:
-            Utils.log("[Send] {} [{}]".format(Utils.formatDealTitle(deal, True), str(priority)))
+            Utils.log("[Send] {} [{}]".format(deal.formatTitle(True), str(priority)))
         else:
-            Utils.log("[Error] {} [{}]".format(Utils.formatDealTitle(deal, True), str(priority)))
+            Utils.log("[Error] {} [{}]".format(deal.formatTitle(True), str(priority)))
 
     # Récuperer l'image sous forme de bytes
     @ staticmethod
@@ -131,30 +136,6 @@ class Utils:
     @ staticmethod
     def log(message):
         print("[{}] {}".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), message))
-
-    # Formater le titre du deal pour inclure le prix
-    @ staticmethod
-    def formatDealTitle(deal, addTitle=False):
-        if addTitle:
-            deal_title = "{} - ".format(deal['title'])
-        else:
-            deal_title = ""
-
-        deal_title += (deal['merchant']["merchantName"] if deal['merchant'] and "merchantName" in deal['merchant'] else "Dealabs")
-
-        if deal['isFree']:
-            deal_title += " (Gratuit)"
-        else:
-            if deal['priceDiscount']:
-                deal_title += " -{}%".format(int(deal['priceDiscount']))
-
-            if deal['price']:
-                deal_title += " ({}".format(Utils.formatPrice(deal['price']))
-                if deal['nextBestPrice']:
-                    deal_title += " / {}".format(Utils.formatPrice(deal['nextBestPrice']))
-                deal_title += ")"
-
-        return deal_title
 
     # Formater le prix
     @ staticmethod

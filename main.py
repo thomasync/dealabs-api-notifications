@@ -6,13 +6,14 @@ load_dotenv()
 
 
 def help():
-    print("""Usage: python3 main.py [refresh_seconds] [minimum_discount] [free_products] [expire_notification] [open_dealabs]
-refresh_seconds: Nombre de secondes entre chaque rafraichissement
-minimum_discount: Pourcentage minimum de réduction pour être notifié
-free_products: Être notifié des produits gratuits
-expire_notification: Recevoir une notification avant que les tokens pushover ne soient expirés
-open_dealabs: Ouvrir dealabs au lieu du site du deal
-priority_only_first: Notifier uniquement en priorité a l'apparition du deal et pas à chaque mise à jour
+    print("""Usage: python3 main.py [refresh_seconds] [minimum_discount] [free_products] [expire_notification] [open_dealabs] [priority_only_first] [free_products_priority]
+- refresh_seconds: Nombre de secondes entre chaque rafraichissement
+- minimum_discount: Pourcentage minimum de réduction pour être notifié
+- free_products: Être notifié des produits gratuits
+- expire_notification: Recevoir une notification avant que les tokens pushover ne soient expirés
+- open_dealabs: Ouvrir dealabs au lieu du site du deal
+- priority_only_first: Notifier uniquement en priorité a l'apparition du deal et pas à chaque mise à jour
+- free_products_priority: Envoi également les notifications des produits gratuit en priorité
 """)
     sys.exit(0)
 
@@ -60,7 +61,12 @@ def main(args):
     else:
         priority_only_first = int(os.getenv("PRIORITY_ONLY_FIRST")) if os.getenv("PRIORITY_ONLY_FIRST") else 1
 
-    dealabs = Dealabs(minimum_discount, free_products, expire_notification, open_dealabs, priority_only_first)
+    if len(args) > 6:
+        free_products_priority = int(args[6])
+    else:
+        free_products_priority = int(os.getenv("FREE_PRODUCTS_PRIORITY")) if os.getenv("FREE_PRODUCTS_PRIORITY") else 0
+
+    dealabs = Dealabs(minimum_discount, free_products, expire_notification, open_dealabs, priority_only_first, free_products_priority)
     dealabs.setPushOver(os.getenv("PUSHOVER_TOKEN"), os.getenv("PUSHOVER_USER"))
     dealabs.watch(refresh_seconds)
 
