@@ -1,5 +1,7 @@
 # Dealabs Api Notifications
 
+[![Tests](https://github.com/thomasync/dealabs-api-notifications/actions/workflows/python-package.yml/badge.svg)](https://github.com/thomasync/dealabs-api-notifications/actions/workflows/python-package.yml)
+
 ## Envoi des notifications sur téléphone pour les erreurs de prix Dealabs (via pushover)
 
 1. Créer un compte sur [PushOver](https://pushover.net/)
