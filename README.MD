@@ -1,4 +1,4 @@
-# Dealabs Price Error Notifications
+# Dealabs Api Notifications
 
 ## Envoi des notifications sur téléphone pour les erreurs de prix Dealabs (via pushover)
 
@@ -11,6 +11,8 @@
 Exemple de la commande:
 
 ```
+pip install -r requirements.txt
+
 # python3 main.py [refresh_seconds] [minimum_discount] [free_products] [expire_notification] [open_dealabs] [priority_only_first] [free_products_priority]
 python3 main.py 60 90 0 0 1 1 0
 ```
@@ -72,5 +74,7 @@ dealabs = Dealabs()
 deal = dealabs.getDealFromUrl("2497616")
 print(deal.json())
 ```
+
+## [CHANGELOG](https://github.com/thomasync/dealabs-api-notifications/blob/main/CHANGELOG.MD)
 
 2023 - [@thomasync](https://github.com/thomasync)

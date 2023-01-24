@@ -5,6 +5,13 @@ Toutes les modifications notable de ce projet seront documentées dans ce fichie
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2023-01-24
+
+### Ajouté
+
+- Ajout du fichiers requirements.txt pour les dépendances
+- Ajout de Github Actions
+
 ## [3.0.0] - 2023-01-24
 
 ### Modifié
