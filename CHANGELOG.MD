@@ -5,6 +5,19 @@ Toutes les modifications notable de ce projet seront documentées dans ce fichie
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2023-01-24
+
+### Modifié
+
+- Refactoring pour déplacer la logique métier dans la classe Dealabs et Deal
+- Déplacement des outils et de gestion dans la classe Utils
+- Repo renommé en dealabs-api-notifications
+
+### Ajouté
+
+- Ajout des tests pour vérifier la classe Dealabs et Deals ainsi que l'accès à l'api soit toujours fonctionnel
+- Ajout du paramètre _FREE_PRODUCTS_PRIORITY_ pour pouvoir afficher les notifications des produits gratuits de façon non prioritaire et se concentrer sur les erreurs de prix
+
 ## [2.1.0] - 2023-01-21
 
 ### Ajouté
