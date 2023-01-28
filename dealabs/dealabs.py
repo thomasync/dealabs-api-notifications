@@ -17,11 +17,19 @@ class Dealabs:
         self.priority_only_first = priority_only_first
         self.free_products_priority = free_products_priority
         self.refresh_seconds = 0
+        self.setBlacklist()
 
     # Définir les tokens pushOver
     def setPushOver(self, token, user):
         self.token = token
         self.user = user
+
+    # Définir une liste de deals à exclure
+    def setBlacklist(self, blacklist=[]):
+        if blacklist:
+            self.blacklist = blacklist
+        else:
+            self.blacklist = Utils.getBlackListFile()
 
     # Vérifier les deals toutes les x secondes
     def watch(self, refresh_seconds):
@@ -80,7 +88,7 @@ class Dealabs:
                     deals.append(deal)
 
         for deal in threads:
-            deal = Deal(deal)
+            deal = Deal(deal, False, self.blacklist)
             deals.append(deal)
 
         deals.sort(key=lambda x: x.updatedAt)
@@ -197,8 +205,8 @@ class Dealabs:
 
 
 class Deal:
-    def __init__(self, deal_json, is_from_moderation=False):
-        self._formatFields(deal_json, is_from_moderation)
+    def __init__(self, deal_json, is_from_moderation=False, blacklist=[]):
+        self._formatFields(deal_json, is_from_moderation, blacklist)
         self._formatPrices()
 
     def isError(self):
@@ -236,6 +244,9 @@ class Deal:
             isDeactivated = True
 
         elif self.status == 'Deactivated' and (not self.price or self.price == 0):
+            isDeactivated = True
+
+        elif self._blacklist and any(blacklist.lower() in self.title.lower() for blacklist in self._blacklist):
             isDeactivated = True
 
         return isDeactivated
@@ -292,7 +303,7 @@ class Deal:
             self.priceReduction = None
             self.priceDiscount = None
 
-    def _formatFields(self, deal_json, is_from_moderation=False):
+    def _formatFields(self, deal_json, is_from_moderation=False, blacklist=[]):
         privates = ['mainImage', 'selectedLocations', 'isLocal', 'groups', 'merchant']
         for key in deal_json:
             if key in privates:
@@ -304,6 +315,8 @@ class Deal:
                     setattr(self, 'type', int(deal_json[key]))
                 else:
                     setattr(self, key, deal_json[key])
+
+        self._blacklist = blacklist
 
         if self._mainImage:
             self.image = 'https://static-pepper.dealabs.com/' + self._mainImage['path'] + '/' + self._mainImage['name'] + '.jpg'

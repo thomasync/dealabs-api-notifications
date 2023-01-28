@@ -9,6 +9,7 @@
 3. Renommer le fichier **.env.example** en **.env**
 4. Remplir les valeurs _PUSHOVER_TOKEN_ et _PUSHOVER_USER_
 5. Sur l'application : Settings -> Advanced Settings -> Auto-open URLs
+6. Optionnel: Ajouter un fichier blacklist.txt où chaque ligne permet d'ignorer des deals (correspondance effectuée dans le titre)
 
 Exemple de la commande:
 

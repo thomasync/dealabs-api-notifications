@@ -85,9 +85,26 @@ def test_getDeals_check_deactivated(mock_getThreads):
     dealabs = Dealabs()
 
     for deal in dealabs.getDeals(False):
-        if deal.id == "2496398":
+        if deal.id == 2496398:
             assert deal.isDeactivated() == True
-        elif deal.id == "2496417":
+        elif deal.id == 2496417:
+            assert deal.isDeactivated() == True
+
+
+@patch('dealabs.Dealabs._getThreads')
+def test_getDeals_check_deactivated_blacklist(mock_getThreads):
+    with open('tests/mocks/deals.json') as file:
+        mock_deals = json.load(file)
+
+    mock_getThreads.return_value = mock_deals
+    dealabs = Dealabs()
+    dealabs.setBlacklist(["nintendo eshop", "ebook"])
+
+    print(dealabs.blacklist)
+    for deal in dealabs.getDeals(False):
+        if deal.id == 496500:
+            assert deal.isDeactivated() == True
+        elif deal.id == 496501:
             assert deal.isDeactivated() == True
 
 
@@ -101,15 +118,15 @@ def test_getDeals_check_location(mock_getThreads):
 
     for deal in dealabs.getDeals(False):
         # isLocal and not isNational
-        if deal.id == "2496418":
+        if deal.id == 2496418:
             assert deal.isLocal() == True
 
         # not isLocal and not selectedLocations
-        elif deal.id == "2496420":
+        elif deal.id == 2496420:
             assert deal.isLocal() == False
 
         # isLocal and isNational
-        elif deal.id == "2496421":
+        elif deal.id == 2496421:
             assert deal.isLocal() == False
 
 
@@ -123,15 +140,15 @@ def test_getDeals_check_error(mock_getThreads):
 
     for deal in dealabs.getDeals(False):
         # in Title
-        if deal.id == "2496446":
+        if deal.id == 2496446:
             assert deal.isError() == True
 
         # in Description
-        elif deal.id == "2496447":
+        elif deal.id == 2496447:
             assert deal.isError() == True
 
         # in Groups
-        elif deal.id == "2496443":
+        elif deal.id == 2496443:
             assert deal.isError() == True
 
 
@@ -145,15 +162,15 @@ def test_getDeals_check_free(mock_getThreads):
 
     for deal in dealabs.getDeals(False):
         # in Title
-        if deal.id == "2496442":
+        if deal.id == 2496442:
             assert deal.isFree() == True
 
         # in Price
-        elif deal.id == "2496436":
+        elif deal.id == 2496436:
             assert deal.isFree() == True
 
         # in Groups
-        elif deal.id == "2496439":
+        elif deal.id == 2496439:
             assert deal.isFree() == True
 
 

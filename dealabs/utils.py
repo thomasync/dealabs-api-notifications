@@ -77,6 +77,15 @@ class Utils:
             os.makedirs('.cache')
         return '.cache/'
 
+    # Récupérer le fichier blacklist.txt et le retourne sous forme de liste
+    @ staticmethod
+    def getBlackListFile():
+        if os.path.exists('blacklist.txt'):
+            with open('blacklist.txt', 'r') as f:
+                return f.read().splitlines()
+        else:
+            return []
+
     # Récupérer les deals déjà vus
     @ staticmethod
     def getDealsViewed():

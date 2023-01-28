@@ -5,6 +5,16 @@ Toutes les modifications notable de ce projet seront documentées dans ce fichie
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2023-01-28
+
+### Ajouté
+
+- Ajout d'un fichier blacklist.txt où chaque ligne correspond à des mots bannis du titre
+
+### Corrigé
+
+- Correction des tests getDeals() qui n'étaient pas correctement typé
+
 ## [3.0.1] - 2023-01-24
 
 ### Ajouté
