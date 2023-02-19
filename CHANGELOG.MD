@@ -5,6 +5,12 @@ Toutes les modifications notable de ce projet seront documentées dans ce fichie
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère à [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1] - 2023-02-19
+
+### Corrigé
+
+- La blacklist ne prenait pas en compte le nom du marchant
+
 ## [3.1.0] - 2023-01-28
 
 ### Ajouté

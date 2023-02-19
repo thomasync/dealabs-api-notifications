@@ -100,7 +100,6 @@ def test_getDeals_check_deactivated_blacklist(mock_getThreads):
     dealabs = Dealabs()
     dealabs.setBlacklist(["nintendo eshop", "ebook"])
 
-    print(dealabs.blacklist)
     for deal in dealabs.getDeals(False):
         if deal.id == 496500:
             assert deal.isDeactivated() == True

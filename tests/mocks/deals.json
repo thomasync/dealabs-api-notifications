@@ -878,7 +878,7 @@
     {
         "threadId": "496500",
         "threadTypeId": 1,
-        "title": "BEAUTIFUL DESOLUATION - Nintendo eShop",
+        "title": "BEAUTIFUL DESOLUATION",
         "description": "",
         "price": 1,
         "nextBestPrice": null,
@@ -892,7 +892,10 @@
             "name": "496500_1"
         },
         "url": "",
-        "merchant": "",
+        "merchant": {
+            "merchantId": "391",
+            "merchantName": "Nintendo eShop"
+        },
         "groups": [],
         "selectedLocations": null
     },

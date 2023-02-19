@@ -240,13 +240,17 @@ class Deal:
 
     def isDeactivated(self):
         isDeactivated = False
+        search = self.title.lower()
+        if self.merchant:
+            search += ' - ' + self.merchant.lower()
+
         if self.type != 1:
             isDeactivated = True
 
         elif self.status == 'Deactivated' and (not self.price or self.price == 0):
             isDeactivated = True
 
-        elif self._blacklist and any(blacklist.lower() in self.title.lower() for blacklist in self._blacklist):
+        elif self._blacklist and any(blacklist.lower() in search for blacklist in self._blacklist):
             isDeactivated = True
 
         return isDeactivated
