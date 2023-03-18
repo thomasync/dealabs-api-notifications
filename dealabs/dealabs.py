@@ -187,8 +187,9 @@ class Dealabs:
 
     # Requête qui récupère un deal depuis dealabs
     def _getThread(self, id, cookiesFromCache=True, retryDeals=0):
+        timestamp = str(round(time.time()))
         json_data = [{
-            'query': "query additionalInfo($threadId: ID!) { thread(threadId: {eq: $threadId}) { " + self._getProperties() + " }}",
+            'query': "query additionalInfo" + timestamp + "($threadId: ID!) { thread(threadId: {eq: $threadId}) { " + self._getProperties() + " }}",
             'variables': {
                 'threadId': id
             }
