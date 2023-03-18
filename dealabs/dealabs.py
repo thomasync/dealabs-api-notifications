@@ -167,8 +167,9 @@ class Dealabs:
 
     # Requête qui récupère les deals depuis dealabs
     def _getThreads(self, cookiesFromCache=True, retryDeals=0):
+        timestamp = str(round(time.time()))
         json_data = [{
-            'query': "query getThreads {threads(filter: {threadId: null}) { " + self._getProperties() + " }}"
+            'query': "query getThreads" + timestamp + " {threads(filter: {threadId: null}) { " + self._getProperties() + " }}"
         }]
         response = requests.post('https://www.dealabs.com/graphql', headers={
             'user-agent': 'Dealabs/612302 CFNetwork/1120 Darwin/19.0.0'
@@ -240,6 +241,7 @@ class Deal:
 
     def isDeactivated(self):
         isDeactivated = False
+        self.blacklist = Utils.getBlackListFile()
         search = self.title.lower()
         if self.merchant:
             search += ' - ' + self.merchant.lower()
